@@ -10,7 +10,6 @@
     <Folder Include="Interfaces\Repositories\" />
     <Folder Include="Interfaces\Services\" />
     <Folder Include="Dtos\" />
-    <Folder Include="Enums\" />
     <Folder Include="Mappings\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Services\" />
