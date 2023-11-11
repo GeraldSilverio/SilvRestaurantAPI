@@ -15,6 +15,7 @@ namespace SilvRestaurant.Core.Application
             services.AddTransient(typeof(IGenericService<,,>), typeof(GenericService<,,>));
             services.AddTransient<IIngredientService, IngredientService>();
             services.AddTransient<ITableService, TableService>();
+            services.AddTransient<ICategoryOfDisheService, CategoryOfDisheService>();
 
             #endregion
 

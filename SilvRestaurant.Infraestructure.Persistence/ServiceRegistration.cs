@@ -29,6 +29,9 @@ namespace SilvRestaurant.Infraestructure.Persistence
             services.AddTransient(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
             services.AddTransient<IIngredientRepository, IngredientReposity>();
             services.AddTransient<ITableRepository, TableRepository>();
+            services.AddTransient<ICategoryOfDisheRepository, CategoryOfDisheRepository>();
+            services.AddTransient<IDisheIngredientRepository, DisheIngredientRepository>();
+            services.AddTransient<IDisheRepository, DisheRepository>();
             #endregion
 
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SilvRestaurant.Core.Application.ViewModels.DisheIngredient
 {
-    internal class DisheIngredientViewModel
+    public class DisheIngredientViewModel
     {
     }
 }
