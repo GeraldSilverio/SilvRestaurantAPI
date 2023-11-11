@@ -12,8 +12,8 @@ using SilvRestaurant.Infraestructure.Persistence.Context;
 namespace SilvRestaurant.Infraestructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20231111163146_CreatingCategoryOfDishes")]
-    partial class CreatingCategoryOfDishes
+    [Migration("20231111171447_CreatingOtherTables")]
+    partial class CreatingOtherTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,7 +66,7 @@ namespace SilvRestaurant.Infraestructure.Persistence.Migrations
                             Id = 2,
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Plato Fuerte"
+                            Name = "PlatoFuerte"
                         },
                         new
                         {
@@ -82,6 +82,82 @@ namespace SilvRestaurant.Infraestructure.Persistence.Migrations
                             LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Bebida"
                         });
+                });
+
+            modelBuilder.Entity("SilvRestaurant.Core.Domain.Entities.Dishe", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AmountOfPeople")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdCategory")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(12, 2)
+                        .HasColumnType("Decimal");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdCategory");
+
+                    b.ToTable("Dishe", (string)null);
+                });
+
+            modelBuilder.Entity("SilvRestaurant.Core.Domain.Entities.DisheIngredient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdDishe")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdIngredient")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdDishe");
+
+                    b.HasIndex("IdIngredient");
+
+                    b.ToTable("DisheIngredient", (string)null);
                 });
 
             modelBuilder.Entity("SilvRestaurant.Core.Domain.Entities.Ingredient", b =>
@@ -147,6 +223,51 @@ namespace SilvRestaurant.Infraestructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Table", (string)null);
+                });
+
+            modelBuilder.Entity("SilvRestaurant.Core.Domain.Entities.Dishe", b =>
+                {
+                    b.HasOne("SilvRestaurant.Core.Domain.Entities.CategoryOfDishe", "Category")
+                        .WithMany("Dishes")
+                        .HasForeignKey("IdCategory")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("SilvRestaurant.Core.Domain.Entities.DisheIngredient", b =>
+                {
+                    b.HasOne("SilvRestaurant.Core.Domain.Entities.Dishe", "Dishe")
+                        .WithMany("DisheIngredients")
+                        .HasForeignKey("IdDishe")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SilvRestaurant.Core.Domain.Entities.Ingredient", "Ingredient")
+                        .WithMany("DisheIngredients")
+                        .HasForeignKey("IdIngredient")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dishe");
+
+                    b.Navigation("Ingredient");
+                });
+
+            modelBuilder.Entity("SilvRestaurant.Core.Domain.Entities.CategoryOfDishe", b =>
+                {
+                    b.Navigation("Dishes");
+                });
+
+            modelBuilder.Entity("SilvRestaurant.Core.Domain.Entities.Dishe", b =>
+                {
+                    b.Navigation("DisheIngredients");
+                });
+
+            modelBuilder.Entity("SilvRestaurant.Core.Domain.Entities.Ingredient", b =>
+                {
+                    b.Navigation("DisheIngredients");
                 });
 #pragma warning restore 612, 618
         }

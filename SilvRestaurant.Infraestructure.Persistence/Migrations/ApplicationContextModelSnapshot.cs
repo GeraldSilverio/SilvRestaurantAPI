@@ -63,7 +63,7 @@ namespace SilvRestaurant.Infraestructure.Persistence.Migrations
                             Id = 2,
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Plato Fuerte"
+                            Name = "PlatoFuerte"
                         },
                         new
                         {
