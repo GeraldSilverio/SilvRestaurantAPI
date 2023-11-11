@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SilvRestaurant.Infraestructure.Persistence.Context;
 
@@ -11,9 +12,11 @@ using SilvRestaurant.Infraestructure.Persistence.Context;
 namespace SilvRestaurant.Infraestructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20231111164427_CreatingDisheTable")]
+    partial class CreatingDisheTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,10 +139,16 @@ namespace SilvRestaurant.Infraestructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("DisheId")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdDishe")
                         .HasColumnType("int");
 
                     b.Property<int>("IdIngredient")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IngredientId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastModified")
@@ -150,11 +159,11 @@ namespace SilvRestaurant.Infraestructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdDishe");
+                    b.HasIndex("DisheId");
 
-                    b.HasIndex("IdIngredient");
+                    b.HasIndex("IngredientId");
 
-                    b.ToTable("DisheIngredient", (string)null);
+                    b.ToTable("DisheIngredient");
                 });
 
             modelBuilder.Entity("SilvRestaurant.Core.Domain.Entities.Ingredient", b =>
@@ -237,13 +246,13 @@ namespace SilvRestaurant.Infraestructure.Persistence.Migrations
                 {
                     b.HasOne("SilvRestaurant.Core.Domain.Entities.Dishe", "Dishe")
                         .WithMany("DisheIngredients")
-                        .HasForeignKey("IdDishe")
+                        .HasForeignKey("DisheId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SilvRestaurant.Core.Domain.Entities.Ingredient", "Ingredient")
                         .WithMany("DisheIngredients")
-                        .HasForeignKey("IdIngredient")
+                        .HasForeignKey("IngredientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

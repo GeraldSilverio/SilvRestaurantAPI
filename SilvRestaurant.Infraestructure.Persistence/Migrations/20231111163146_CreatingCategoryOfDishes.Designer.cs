@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SilvRestaurant.Infraestructure.Persistence.Context;
 
@@ -11,9 +12,11 @@ using SilvRestaurant.Infraestructure.Persistence.Context;
 namespace SilvRestaurant.Infraestructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20231111163146_CreatingCategoryOfDishes")]
+    partial class CreatingCategoryOfDishes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,82 +84,6 @@ namespace SilvRestaurant.Infraestructure.Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SilvRestaurant.Core.Domain.Entities.Dishe", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AmountOfPeople")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IdCategory")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasPrecision(12, 2)
-                        .HasColumnType("Decimal");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdCategory");
-
-                    b.ToTable("Dishe", (string)null);
-                });
-
-            modelBuilder.Entity("SilvRestaurant.Core.Domain.Entities.DisheIngredient", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IdDishe")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdIngredient")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdDishe");
-
-                    b.HasIndex("IdIngredient");
-
-                    b.ToTable("DisheIngredient", (string)null);
-                });
-
             modelBuilder.Entity("SilvRestaurant.Core.Domain.Entities.Ingredient", b =>
                 {
                     b.Property<int>("Id")
@@ -220,51 +147,6 @@ namespace SilvRestaurant.Infraestructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Table", (string)null);
-                });
-
-            modelBuilder.Entity("SilvRestaurant.Core.Domain.Entities.Dishe", b =>
-                {
-                    b.HasOne("SilvRestaurant.Core.Domain.Entities.CategoryOfDishe", "Category")
-                        .WithMany("Dishes")
-                        .HasForeignKey("IdCategory")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("SilvRestaurant.Core.Domain.Entities.DisheIngredient", b =>
-                {
-                    b.HasOne("SilvRestaurant.Core.Domain.Entities.Dishe", "Dishe")
-                        .WithMany("DisheIngredients")
-                        .HasForeignKey("IdDishe")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SilvRestaurant.Core.Domain.Entities.Ingredient", "Ingredient")
-                        .WithMany("DisheIngredients")
-                        .HasForeignKey("IdIngredient")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Dishe");
-
-                    b.Navigation("Ingredient");
-                });
-
-            modelBuilder.Entity("SilvRestaurant.Core.Domain.Entities.CategoryOfDishe", b =>
-                {
-                    b.Navigation("Dishes");
-                });
-
-            modelBuilder.Entity("SilvRestaurant.Core.Domain.Entities.Dishe", b =>
-                {
-                    b.Navigation("DisheIngredients");
-                });
-
-            modelBuilder.Entity("SilvRestaurant.Core.Domain.Entities.Ingredient", b =>
-                {
-                    b.Navigation("DisheIngredients");
                 });
 #pragma warning restore 612, 618
         }

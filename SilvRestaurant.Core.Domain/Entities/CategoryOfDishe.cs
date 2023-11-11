@@ -2,11 +2,10 @@
 
 namespace SilvRestaurant.Core.Domain.Entities
 {
-    public class Ingredient : AuditableBaseEntity
+    public class CategoryOfDishe:AuditableBaseEntity
     {
         public string Name { get; set; } = null!;
 
-        public ICollection<DisheIngredient> DisheIngredients { get; set; }
-
+        public ICollection<Dishe> Dishes { get; set; }
     }
 }
