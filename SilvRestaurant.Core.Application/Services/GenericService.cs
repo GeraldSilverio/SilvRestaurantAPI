@@ -33,7 +33,7 @@ namespace SilvRestaurant.Core.Application.Services
             await _repository.DeleteAsync(entity);
         }
 
-        public async Task<List<ViewModel>> GetAll()
+        public virtual async Task<List<ViewModel>> GetAll()
         {
             var entities = await _repository.GetAllAsync();
             return _mapper.Map<List<ViewModel>>(entities);

@@ -44,7 +44,7 @@ namespace SilvRestaurant.WebApi.Controllers.v1
 
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(IngredientViewModel))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(SaveIngredientViewModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post(SaveIngredientViewModel model)
