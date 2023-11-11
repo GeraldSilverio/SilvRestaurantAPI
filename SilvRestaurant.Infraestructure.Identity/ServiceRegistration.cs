@@ -26,11 +26,7 @@ namespace SilvRestaurant.Infraestructure.Identity
             }
             #endregion
 
-            #region Services
-            services.AddTransient(typeof(IGenericService<,,>), typeof(GenericService<,,>));
-            services.AddTransient<IIngredientService, IngredientService>();
-
-            #endregion
+            
         }
     }
 }

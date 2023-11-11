@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using SilvRestaurant.Core.Application.ViewModels.Ingredient;
+using SilvRestaurant.Core.Application.ViewModels.Table;
 using SilvRestaurant.Core.Domain.Entities;
 
 namespace SilvRestaurant.Core.Application.Mappings
 {
-    public class GeneralProfile:Profile
+    public class GeneralProfile : Profile
     {
         public GeneralProfile()
         {
@@ -14,14 +15,29 @@ namespace SilvRestaurant.Core.Application.Mappings
                 .ForMember(x => x.CreatedBy, opt => opt.Ignore())
                 .ForMember(x => x.LastModifiedBy, opt => opt.Ignore())
                 .ForMember(x => x.Created, opt => opt.Ignore());
-            
+
             CreateMap<Ingredient, SaveIngredientViewModel>()
                 .ReverseMap()
                 .ForMember(x => x.LastModified, opt => opt.Ignore())
                 .ForMember(x => x.CreatedBy, opt => opt.Ignore())
                 .ForMember(x => x.LastModifiedBy, opt => opt.Ignore())
                 .ForMember(x => x.Created, opt => opt.Ignore());
-          
+
+            CreateMap<Table, SaveTableViewModel>()
+                .ReverseMap()
+                .ForMember(x => x.LastModified, opt => opt.Ignore())
+                .ForMember(x => x.CreatedBy, opt => opt.Ignore())
+                .ForMember(x => x.LastModifiedBy, opt => opt.Ignore())
+                .ForMember(x => x.Created, opt => opt.Ignore());
+
+            CreateMap<Table, TableViewModel>()
+                .ReverseMap()
+                .ForMember(x => x.LastModified, opt => opt.Ignore())
+                .ForMember(x => x.CreatedBy, opt => opt.Ignore())
+                .ForMember(x => x.LastModifiedBy, opt => opt.Ignore())
+                .ForMember(x => x.Created, opt => opt.Ignore());
+
+
         }
     }
 }
