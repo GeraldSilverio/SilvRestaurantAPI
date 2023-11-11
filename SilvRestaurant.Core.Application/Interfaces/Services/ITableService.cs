@@ -3,7 +3,9 @@ using SilvRestaurant.Core.Domain.Entities;
 
 namespace SilvRestaurant.Core.Application.Interfaces.Services
 {
-    public interface ITableService:IGenericService<SaveTableViewModel,TableViewModel,Table>
+    public interface ITableService : IGenericService<SaveTableViewModel, TableViewModel, Table>
     {
+        Task ChangeStatus(int idTable, int StatusId);
     }
+
 }

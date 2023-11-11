@@ -82,5 +82,51 @@ namespace SilvRestaurant.WebApi.Controllers.v1
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+        public async Task<IActionResult> Put(EditTableViewModel model, int id)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+                var tablevm = new SaveTableViewModel()
+                {
+                    Id = id,
+                    AmountOfPeople = model.AmountOfPeople,
+                    Description = model.Description
+                };
+                await _tableService.Update(tablevm, id);
+                return Ok(model);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        [HttpPatch]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+        public async Task<IActionResult> ChangeStatus(int id, int statusId)
+        {
+            try
+            {
+                await _tableService.ChangeStatus(id, statusId);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+
+            }
+        }
     }
 }

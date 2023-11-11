@@ -40,13 +40,13 @@ namespace SilvRestaurant.Core.Application.Services
 
         }
 
-        public async Task<SaveViewModel> GetById(int id)
+        public virtual async Task<SaveViewModel> GetById(int id)
         {
             var entity = await _repository.GetByIdAsync(id);
             return _mapper.Map<SaveViewModel>(entity);
         }
 
-        public async Task Update(SaveViewModel model, int id)
+        public virtual async Task Update(SaveViewModel model, int id)
         {
             var entity = _mapper.Map<Model>(model);
             await _repository.UpdateAsync(entity, id);
