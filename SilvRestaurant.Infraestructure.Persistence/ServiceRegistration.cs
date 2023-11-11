@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SilvRestaurant.Core.Application.Interfaces.Repositories;
 using SilvRestaurant.Infraestructure.Persistence.Context;
+using SilvRestaurant.Infraestructure.Persistence.Repositories;
 
 namespace SilvRestaurant.Infraestructure.Persistence
 {
@@ -20,6 +22,13 @@ namespace SilvRestaurant.Infraestructure.Persistence
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                 m => m.MigrationsAssembly(typeof(ApplicationContext).Assembly.FullName)));
             }
+            #endregion
+
+            #region Repositories
+
+            services.AddTransient(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
+            services.AddTransient<IIngredientRepository, IngredientReposity>();
+            services.AddTransient<ITableRepository, TableRepository>();
             #endregion
 
 

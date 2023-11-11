@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SilvRestaurant.Core.Application.Interfaces.Services;
+using SilvRestaurant.Core.Application.Services;
 using SilvRestaurant.Infraestructure.Identity.Context;
 
 namespace SilvRestaurant.Infraestructure.Identity
@@ -22,6 +24,12 @@ namespace SilvRestaurant.Infraestructure.Identity
                 m => m.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName)
                 ));
             }
+            #endregion
+
+            #region Services
+            services.AddTransient(typeof(IGenericService<,,>), typeof(GenericService<,,>));
+            services.AddTransient<IIngredientService, IngredientService>();
+
             #endregion
         }
     }

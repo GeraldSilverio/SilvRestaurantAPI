@@ -16,9 +16,9 @@ builder.Services.AddApplicationLayer();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
-//builder.Services.AddSwaggerExtension();
-//builder.Services.AddApiVersioningExtension();
-//
+builder.Services.AddSwaggerExtension();
+builder.Services.AddApiVersioningExtension();
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
 
@@ -32,6 +32,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSwaggerExtension();

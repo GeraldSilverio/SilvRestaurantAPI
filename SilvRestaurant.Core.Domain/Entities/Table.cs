@@ -6,6 +6,6 @@ namespace SilvRestaurant.Core.Domain.Entities
     {
         public int AmountOfPeople {  get; set; }
         public string Description { get; set; } = null!;
-        public int StatusOfTable { get; set; }
+        public string StatusOfTable { get; set; } = null!;
     }
 }

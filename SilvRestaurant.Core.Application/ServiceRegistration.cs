@@ -8,6 +8,7 @@ namespace SilvRestaurant.Core.Application
         public static void AddApplicationLayer(this IServiceCollection services)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
         }
     }
 }

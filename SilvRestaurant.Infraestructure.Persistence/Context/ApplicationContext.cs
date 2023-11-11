@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SilvRestaurant.Core.Domain.Commons;
+using SilvRestaurant.Core.Domain.Entities;
+using SilvRestaurant.Infraestructure.Persistence.EntityConfigurations;
 
 namespace SilvRestaurant.Infraestructure.Persistence.Context
 {
@@ -10,6 +12,8 @@ namespace SilvRestaurant.Infraestructure.Persistence.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new IngredientConfiguration());
+            modelBuilder.ApplyConfiguration(new TableConfiguration());
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -32,5 +36,8 @@ namespace SilvRestaurant.Infraestructure.Persistence.Context
         }
 
         //DbSet
+
+        public DbSet<Ingredient> Ingredients { get; set;}
+        public DbSet<Table> Tables { get; set;}
     }
 }
