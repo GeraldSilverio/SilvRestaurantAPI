@@ -2,38 +2,35 @@
 using Microsoft.AspNetCore.Mvc;
 using SilvRestaurant.Core.Application.Enums;
 using SilvRestaurant.Core.Application.Interfaces.Services;
-using SilvRestaurant.Core.Application.ViewModels.Table;
+using SilvRestaurant.Core.Application.ViewModels.Order;
 
 namespace SilvRestaurant.WebApi.Controllers.v1
 {
     [ApiVersion("1.0")]
-    public class TableController : BaseApiController
+    [Authorize(Roles = "Mesero")]
+    public class OrderController : BaseApiController
     {
-        private readonly ITableService _tableService;
         private readonly IOrderService _orderService;
 
-        public TableController(ITableService tableService, IOrderService orderService)
+        public OrderController(IOrderService orderService)
         {
-            _tableService = tableService;
             _orderService = orderService;
         }
 
-        [Authorize(Roles = "Admin,Mesero")]
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TableViewModel))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrderViewModel))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-
         public async Task<IActionResult> Get()
         {
             try
             {
-                var tables = await _tableService.GetAll();
-                if (tables.Count == 0)
+                var orders = await _orderService.GetAll();
+                if (orders.Count == 0)
                 {
                     return NoContent();
                 }
-                return Ok(tables);
+                return Ok(orders);
             }
             catch (Exception ex)
             {
@@ -41,120 +38,108 @@ namespace SilvRestaurant.WebApi.Controllers.v1
             }
 
         }
-        [Authorize(Roles = "Admin,Mesero")]
 
         [HttpGet("GetById")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TableViewModel))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrderViewModel))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var table = await _tableService.GetById(id);
-                if (table is null)
+                var order = await _orderService.GetOrderById(id);
+                if (order is null)
                 {
                     return NoContent();
                 }
-                return Ok(table);
+                return Ok(order);
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
-        }
-        [Authorize(Roles = "Mesero")]
-        [HttpGet("GetByIdTable")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TableViewModel))]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-        public async Task<IActionResult> GetByIdTable(int idTable)
-        {
-            try
-            {
-                var Ordetable = await _orderService.GetOrderByIdTable(idTable);
-                if (Ordetable.Count == 0)
-                {
-                    return NoContent();
-                }
-                return Ok(Ordetable);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(SaveOrderViewModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-
-        public async Task<IActionResult> Post([FromBody] SaveTableViewModel model)
+        public async Task<IActionResult> Post(SaveOrderViewModel order)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest();
+                    return BadRequest(ModelState);
                 }
-                model.StatusOfTable = StatusOfTable.Avalible.ToString();
-                await _tableService.Add(model);
-                return StatusCode(StatusCodes.Status201Created, "Mesa creada con exito");
+                order.Status = OrderStatus.InProccess.ToString();
+                await _orderService.Add(order);
+                return StatusCode(StatusCodes.Status201Created, "Orden Creada Con Exito");
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-        [Authorize(Roles = "Admin")]
-        [HttpPut]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-        public async Task<IActionResult> Put(EditTableViewModel model, int id)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
-                var tablevm = new SaveTableViewModel()
-                {
-                    Id = id,
-                    AmountOfPeople = model.AmountOfPeople,
-                    Description = model.Description
-                };
-                await _tableService.Update(tablevm, id);
-                return Ok(model);
-
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-        }
-        [Authorize(Roles = "Admin")]
-        [HttpPatch]
+        [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-
-        public async Task<IActionResult> ChangeStatus(int id, int statusId)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                await _tableService.ChangeStatus(id, statusId);
+                await _orderService.Delete(id);
                 return NoContent();
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        [HttpPatch]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Update(int id, List<int> dishes)
+        {
+            try
+            {
+                if (dishes.Count == 0)
+                {
 
+                    return BadRequest();
+                }
+
+                await _orderService.UpdateDishes(dishes, id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPatch("CompletedOrder")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Update(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest();
+                }
+
+                await _orderService.CompletedOrder(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }

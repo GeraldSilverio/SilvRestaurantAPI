@@ -18,6 +18,8 @@ namespace SilvRestaurant.Core.Application
             services.AddTransient<ICategoryOfDisheService, CategoryOfDisheService>();
             services.AddTransient<IDisheIngredientService, DisheIngredientService>();
             services.AddTransient<IDisheService, DisheService>();
+            services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IOrderDisheService, OrderDishesService>();
 
             #endregion
 

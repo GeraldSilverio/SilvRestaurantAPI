@@ -70,7 +70,7 @@ namespace SilvRestaurant.WebApi.Controllers.v1
                     return BadRequest();
                 }
                 await _disheService.Add(model);
-                return Created("Created", model);
+                return StatusCode(StatusCodes.Status201Created, "Plato creado con exito");
             }
             catch (Exception ex)
             {

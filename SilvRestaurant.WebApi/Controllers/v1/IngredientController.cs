@@ -22,12 +22,20 @@ namespace SilvRestaurant.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get()
         {
-            var ingredients = await _ingredientService.GetAll();
-            if (ingredients.Count == 0)
+            try
             {
-                return NoContent();
+                var ingredients = await _ingredientService.GetAll();
+                if (ingredients.Count == 0)
+                {
+                    return NoContent();
+                }
+                return Ok(ingredients);
             }
-            return Ok(ingredients);
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
         }
         [HttpGet("GetById")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IngredientViewModel))]
@@ -35,12 +43,20 @@ namespace SilvRestaurant.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetById(int id)
         {
-            var ingredient = await _ingredientService.GetById(id);
-            if (ingredient is null)
+            try
             {
-                return NoContent();
+                var ingredient = await _ingredientService.GetById(id);
+                if (ingredient is null)
+                {
+                    return NoContent();
+                }
+                return Ok(ingredient);
             }
-            return Ok(ingredient);
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
         }
 
 
@@ -57,7 +73,7 @@ namespace SilvRestaurant.WebApi.Controllers.v1
                     return BadRequest(model);
                 }
                 await _ingredientService.Add(model);
-                return Created("Ingredient", model);
+                return StatusCode(StatusCodes.Status201Created, "Ingrediente creado con exito");
             }
             catch (Exception ex)
             {

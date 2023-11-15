@@ -18,6 +18,7 @@ namespace SilvRestaurant.Core.Application.Services
 
         public async Task ChangeStatus(int idTable, int StatusId)
         {
+
             var table = await _tableRepository.GetByIdAsync(idTable);
             switch (StatusId)
             {
