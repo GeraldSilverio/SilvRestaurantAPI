@@ -5,5 +5,6 @@ namespace SilvRestaurant.Core.Application.Interfaces.Services
 {
     public interface IDisheService:IGenericService<SaveDisheViewModel,DisheViewModel,Dishe>
     {
+        Task<DisheViewModel> GetDisheById(int id);
     }
 }

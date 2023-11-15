@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SilvRestaurant.Core.Application.Interfaces.Services;
 using SilvRestaurant.Core.Application.ViewModels.Ingredient;
 
 namespace SilvRestaurant.WebApi.Controllers.v1
 {
     [ApiVersion("1.0")]
-
+    [Authorize(Roles = "Admin")]
     public class IngredientController : BaseApiController
     {
         private readonly IIngredientService _ingredientService;

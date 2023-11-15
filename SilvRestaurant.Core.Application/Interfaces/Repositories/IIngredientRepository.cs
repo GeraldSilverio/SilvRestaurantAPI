@@ -5,5 +5,6 @@ namespace SilvRestaurant.Core.Application.Interfaces.Repositories
 {
     public interface IIngredientRepository:IGenericRepositoryAsync<Ingredient>
     {
+        Task<List<Ingredient>> GetAllById(int id);
     }
 }

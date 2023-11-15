@@ -15,7 +15,7 @@ namespace SilvRestaurant.Infraestructure.Identity.Seeds
             defaultUser.LastName = "Silverio";
             defaultUser.EmailConfirmed = true;
             defaultUser.PhoneNumberConfirmed = true;
-            
+
 
             if (userManager.Users.All(u => u.Id == defaultUser.Id))
             {

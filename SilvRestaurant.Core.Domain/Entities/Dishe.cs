@@ -10,5 +10,6 @@ namespace SilvRestaurant.Core.Domain.Entities
         public CategoryOfDishe Category { get; set; }
         public int IdCategory{ get; set; }
         public ICollection<DisheIngredient> DisheIngredients { get; set; }
+        public ICollection<OrderDishes> OrderDishes { get; set; }
     }
 }

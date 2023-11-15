@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SilvRestaurant.Infraestructure.Persistence.Context;
 
@@ -11,9 +12,11 @@ using SilvRestaurant.Infraestructure.Persistence.Context;
 namespace SilvRestaurant.Infraestructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20231115063501_TableOrderAndOrderDishesCreate")]
+    partial class TableOrderAndOrderDishesCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -213,14 +216,16 @@ namespace SilvRestaurant.Infraestructure.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("SubTotal")
-                        .HasPrecision(16, 2)
-                        .HasColumnType("Decimal");
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("TableId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdTable");
+                    b.HasIndex("TableId");
 
-                    b.ToTable("Order", (string)null);
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("SilvRestaurant.Core.Domain.Entities.OrderDishes", b =>
@@ -237,6 +242,9 @@ namespace SilvRestaurant.Infraestructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("DisheId")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdDishe")
                         .HasColumnType("int");
 
@@ -249,13 +257,16 @@ namespace SilvRestaurant.Infraestructure.Persistence.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("IdDishe");
+                    b.HasIndex("DisheId");
 
-                    b.HasIndex("IdOrder");
+                    b.HasIndex("OrderId");
 
-                    b.ToTable("OrderDishe", (string)null);
+                    b.ToTable("OrderDishes");
                 });
 
             modelBuilder.Entity("SilvRestaurant.Core.Domain.Entities.Table", b =>
@@ -328,7 +339,7 @@ namespace SilvRestaurant.Infraestructure.Persistence.Migrations
                 {
                     b.HasOne("SilvRestaurant.Core.Domain.Entities.Table", "Table")
                         .WithMany("Orders")
-                        .HasForeignKey("IdTable")
+                        .HasForeignKey("TableId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -339,13 +350,13 @@ namespace SilvRestaurant.Infraestructure.Persistence.Migrations
                 {
                     b.HasOne("SilvRestaurant.Core.Domain.Entities.Dishe", "Dishe")
                         .WithMany("OrderDishes")
-                        .HasForeignKey("IdDishe")
+                        .HasForeignKey("DisheId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SilvRestaurant.Core.Domain.Entities.Order", "Order")
                         .WithMany("OrderDishes")
-                        .HasForeignKey("IdOrder")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

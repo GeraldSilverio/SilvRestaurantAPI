@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SilvRestaurant.Core.Application.Enums;
 using SilvRestaurant.Core.Application.Interfaces.Services;
 using SilvRestaurant.Core.Application.ViewModels.Table;
@@ -15,6 +16,7 @@ namespace SilvRestaurant.WebApi.Controllers.v1
             _tableService = tableService;
         }
 
+        [Authorize(Roles ="Admin,Mesero")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TableViewModel))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -37,6 +39,7 @@ namespace SilvRestaurant.WebApi.Controllers.v1
             }
 
         }
+        [Authorize(Roles = "Admin,Mesero")]
 
         [HttpGet("GetById")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TableViewModel))]
@@ -60,6 +63,7 @@ namespace SilvRestaurant.WebApi.Controllers.v1
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -82,7 +86,7 @@ namespace SilvRestaurant.WebApi.Controllers.v1
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -111,6 +115,7 @@ namespace SilvRestaurant.WebApi.Controllers.v1
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+        [Authorize(Roles = "Admin")]
         [HttpPatch]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

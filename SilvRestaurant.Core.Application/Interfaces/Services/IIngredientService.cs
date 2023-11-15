@@ -5,5 +5,6 @@ namespace SilvRestaurant.Core.Application.Interfaces.Services
 {
     public interface IIngredientService:IGenericService<SaveIngredientViewModel, IngredientViewModel,Ingredient>
     {
+        Task<List<IngredientViewModel>> GetAllById(int id);
     }
 }

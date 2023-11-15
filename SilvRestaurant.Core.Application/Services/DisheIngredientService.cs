@@ -8,8 +8,15 @@ namespace SilvRestaurant.Core.Application.Services
 {
     public class DisheIngredientService : GenericService<SaveDisheIngredientViewModel, DisheIngredientViewModel, DisheIngredient>, IDisheIngredientService
     {
-        public DisheIngredientService(IMapper mapper, IGenericRepositoryAsync<DisheIngredient> repository) : base(mapper, repository)
+        private readonly IDisheIngredientRepository _disheIngredientRepository;
+        public DisheIngredientService(IMapper mapper, IDisheIngredientRepository disheIngredientRepository) : base(mapper, disheIngredientRepository)
         {
+            _disheIngredientRepository = disheIngredientRepository;
+        }
+
+        public async Task ClearDisheIngredient(int idDishe)
+        {
+            await _disheIngredientRepository.ClearDisheIngredient(idDishe);
         }
     }
 }

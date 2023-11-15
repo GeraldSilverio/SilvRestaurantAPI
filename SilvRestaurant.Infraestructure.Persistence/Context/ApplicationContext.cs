@@ -17,6 +17,8 @@ namespace SilvRestaurant.Infraestructure.Persistence.Context
             modelBuilder.ApplyConfiguration(new CategotyOfDisheConfiguration());
             modelBuilder.ApplyConfiguration(new DisheConfiguration());
             modelBuilder.ApplyConfiguration(new DisheIngredientConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderDisheConfiguration());
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -45,5 +47,7 @@ namespace SilvRestaurant.Infraestructure.Persistence.Context
         public DbSet<CategoryOfDishe> CategoryOfDishes { get; set;}
         public DbSet<Dishe> Dishes { get; set;}
         public DbSet<DisheIngredient> DisheIngredients { get; set;}
+        public DbSet<Order> Orders { get; set;}
+        public DbSet<OrderDishes> OrderDishes { get; set;}
     }
 }

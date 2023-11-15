@@ -5,5 +5,6 @@ namespace SilvRestaurant.Core.Application.Interfaces.Services
 {
     public interface IDisheIngredientService : IGenericService<SaveDisheIngredientViewModel, DisheIngredientViewModel, DisheIngredient>
     {
+        Task ClearDisheIngredient(int idDishe);
     }
 }
